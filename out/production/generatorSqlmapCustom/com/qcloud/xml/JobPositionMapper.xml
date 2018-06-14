@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qcloud.mapper.JobPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.qcloud.pojo.JobPosition" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="platform_type" property="platformType" jdbcType="INTEGER" />
+    <result column="search_text" property="searchText" jdbcType="VARCHAR" />
+    <result column="companyId" property="companyid" jdbcType="VARCHAR" />
+    <result column="companyUrl" property="companyurl" jdbcType="VARCHAR" />
+    <result column="companyFullName" property="companyfullname" jdbcType="VARCHAR" />
+    <result column="positionId" property="positionid" jdbcType="VARCHAR" />
+    <result column="positionUrl" property="positionurl" jdbcType="VARCHAR" />
+    <result column="positionName" property="positionname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="positionAdvantage" property="positionadvantage" jdbcType="VARCHAR" />
+    <result column="workYear" property="workyear" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="jobNature" property="jobnature" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="industryField" property="industryfield" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="businessZones" property="businesszones" jdbcType="VARCHAR" />
+    <result column="positionLables" property="positionlables" jdbcType="VARCHAR" />
+    <result column="industryLables" property="industrylables" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="lastLogin" property="lastlogin" jdbcType="TIMESTAMP" />
+    <result column="firstType" property="firsttype" jdbcType="VARCHAR" />
+    <result column="secondType" property="secondtype" jdbcType="VARCHAR" />
+    <result column="isSchoolJob" property="isschooljob" jdbcType="BIT" />
+    <result column="subwayline" property="subwayline" jdbcType="VARCHAR" />
+    <result column="stationname" property="stationname" jdbcType="VARCHAR" />
+    <result column="linestaion" property="linestaion" jdbcType="VARCHAR" />
+    <result column="formatCreateTime" property="formatcreatetime" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, platform_type, search_text, companyId, companyUrl, companyFullName, positionId, 
+    positionUrl, positionName, createTime, positionAdvantage, workYear, education, jobNature, 
+    salary, city_id, industryField, district, businessZones, positionLables, industryLables, 
+    longitude, latitude, lastLogin, firstType, secondType, isSchoolJob, subwayline, stationname, 
+    linestaion, formatCreateTime, is_deleted, gmt_create, gmt_modified
+  </sql>
+  <select id="selectPositionCountByCity" resultType="java.lang.Integer" parameterType="com.qcloud.pojo.JobPosition">
+    SELECT
+      COUNT( * )
+    FROM
+      job_position
+    where city_id=#{cityId,jdbcType=VARCHAR}
+    and is_deleted=#{isDeleted,jdbcType=BIT}
+    and platform_type=#{platformType,jdbcType=TINYINT}</select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qcloud.pojo.JobPositionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from job_position
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from job_position
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qcloud.pojo.JobPositionExample" >
+    delete from job_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qcloud.pojo.JobPosition" >
+    insert into job_position (id, platform_type, search_text, 
+      companyId, companyUrl, companyFullName, 
+      positionId, positionUrl, positionName, 
+      createTime, positionAdvantage, workYear, 
+      education, jobNature, salary, 
+      city_id, industryField, district, 
+      businessZones, positionLables, industryLables, 
+      longitude, latitude, lastLogin, 
+      firstType, secondType, isSchoolJob, 
+      subwayline, stationname, linestaion, 
+      formatCreateTime, is_deleted, gmt_create, 
+      gmt_modified)
+    values (#{id,jdbcType=BIGINT}, #{platformType,jdbcType=INTEGER}, #{searchText,jdbcType=VARCHAR}, 
+      #{companyid,jdbcType=VARCHAR}, #{companyurl,jdbcType=VARCHAR}, #{companyfullname,jdbcType=VARCHAR}, 
+      #{positionid,jdbcType=VARCHAR}, #{positionurl,jdbcType=VARCHAR}, #{positionname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{positionadvantage,jdbcType=VARCHAR}, #{workyear,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{jobnature,jdbcType=VARCHAR}, #{salary,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=INTEGER}, #{industryfield,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{businesszones,jdbcType=VARCHAR}, #{positionlables,jdbcType=VARCHAR}, #{industrylables,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{lastlogin,jdbcType=TIMESTAMP}, 
+      #{firsttype,jdbcType=VARCHAR}, #{secondtype,jdbcType=VARCHAR}, #{isschooljob,jdbcType=BIT}, 
+      #{subwayline,jdbcType=VARCHAR}, #{stationname,jdbcType=VARCHAR}, #{linestaion,jdbcType=VARCHAR}, 
+      #{formatcreatetime,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qcloud.pojo.JobPosition" >
+    insert into job_position
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="platformType != null" >
+        platform_type,
+      </if>
+      <if test="searchText != null" >
+        search_text,
+      </if>
+      <if test="companyid != null" >
+        companyId,
+      </if>
+      <if test="companyurl != null" >
+        companyUrl,
+      </if>
+      <if test="companyfullname != null" >
+        companyFullName,
+      </if>
+      <if test="positionid != null" >
+        positionId,
+      </if>
+      <if test="positionurl != null" >
+        positionUrl,
+      </if>
+      <if test="positionname != null" >
+        positionName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="positionadvantage != null" >
+        positionAdvantage,
+      </if>
+      <if test="workyear != null" >
+        workYear,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="jobnature != null" >
+        jobNature,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="industryfield != null" >
+        industryField,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="businesszones != null" >
+        businessZones,
+      </if>
+      <if test="positionlables != null" >
+        positionLables,
+      </if>
+      <if test="industrylables != null" >
+        industryLables,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="lastlogin != null" >
+        lastLogin,
+      </if>
+      <if test="firsttype != null" >
+        firstType,
+      </if>
+      <if test="secondtype != null" >
+        secondType,
+      </if>
+      <if test="isschooljob != null" >
+        isSchoolJob,
+      </if>
+      <if test="subwayline != null" >
+        subwayline,
+      </if>
+      <if test="stationname != null" >
+        stationname,
+      </if>
+      <if test="linestaion != null" >
+        linestaion,
+      </if>
+      <if test="formatcreatetime != null" >
+        formatCreateTime,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="platformType != null" >
+        #{platformType,jdbcType=INTEGER},
+      </if>
+      <if test="searchText != null" >
+        #{searchText,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyurl != null" >
+        #{companyurl,jdbcType=VARCHAR},
+      </if>
+      <if test="companyfullname != null" >
+        #{companyfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionurl != null" >
+        #{positionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null" >
+        #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionadvantage != null" >
+        #{positionadvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="workyear != null" >
+        #{workyear,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="jobnature != null" >
+        #{jobnature,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="industryfield != null" >
+        #{industryfield,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="businesszones != null" >
+        #{businesszones,jdbcType=VARCHAR},
+      </if>
+      <if test="positionlables != null" >
+        #{positionlables,jdbcType=VARCHAR},
+      </if>
+      <if test="industrylables != null" >
+        #{industrylables,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlogin != null" >
+        #{lastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firsttype != null" >
+        #{firsttype,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtype != null" >
+        #{secondtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isschooljob != null" >
+        #{isschooljob,jdbcType=BIT},
+      </if>
+      <if test="subwayline != null" >
+        #{subwayline,jdbcType=VARCHAR},
+      </if>
+      <if test="stationname != null" >
+        #{stationname,jdbcType=VARCHAR},
+      </if>
+      <if test="linestaion != null" >
+        #{linestaion,jdbcType=VARCHAR},
+      </if>
+      <if test="formatcreatetime != null" >
+        #{formatcreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qcloud.pojo.JobPositionExample" resultType="java.lang.Integer" >
+    select count(*) from job_position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update job_position
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.platformType != null" >
+        platform_type = #{record.platformType,jdbcType=INTEGER},
+      </if>
+      <if test="record.searchText != null" >
+        search_text = #{record.searchText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyid != null" >
+        companyId = #{record.companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyurl != null" >
+        companyUrl = #{record.companyurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyfullname != null" >
+        companyFullName = #{record.companyfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionid != null" >
+        positionId = #{record.positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionurl != null" >
+        positionUrl = #{record.positionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionname != null" >
+        positionName = #{record.positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.positionadvantage != null" >
+        positionAdvantage = #{record.positionadvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workyear != null" >
+        workYear = #{record.workyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobnature != null" >
+        jobNature = #{record.jobnature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salary != null" >
+        salary = #{record.salary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.industryfield != null" >
+        industryField = #{record.industryfield,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null" >
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businesszones != null" >
+        businessZones = #{record.businesszones,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionlables != null" >
+        positionLables = #{record.positionlables,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industrylables != null" >
+        industryLables = #{record.industrylables,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastlogin != null" >
+        lastLogin = #{record.lastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.firsttype != null" >
+        firstType = #{record.firsttype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondtype != null" >
+        secondType = #{record.secondtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isschooljob != null" >
+        isSchoolJob = #{record.isschooljob,jdbcType=BIT},
+      </if>
+      <if test="record.subwayline != null" >
+        subwayline = #{record.subwayline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationname != null" >
+        stationname = #{record.stationname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linestaion != null" >
+        linestaion = #{record.linestaion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formatcreatetime != null" >
+        formatCreateTime = #{record.formatcreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.gmtCreate != null" >
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null" >
+        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update job_position
+    set id = #{record.id,jdbcType=BIGINT},
+      platform_type = #{record.platformType,jdbcType=INTEGER},
+      search_text = #{record.searchText,jdbcType=VARCHAR},
+      companyId = #{record.companyid,jdbcType=VARCHAR},
+      companyUrl = #{record.companyurl,jdbcType=VARCHAR},
+      companyFullName = #{record.companyfullname,jdbcType=VARCHAR},
+      positionId = #{record.positionid,jdbcType=VARCHAR},
+      positionUrl = #{record.positionurl,jdbcType=VARCHAR},
+      positionName = #{record.positionname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      positionAdvantage = #{record.positionadvantage,jdbcType=VARCHAR},
+      workYear = #{record.workyear,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=VARCHAR},
+      jobNature = #{record.jobnature,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      industryField = #{record.industryfield,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      businessZones = #{record.businesszones,jdbcType=VARCHAR},
+      positionLables = #{record.positionlables,jdbcType=VARCHAR},
+      industryLables = #{record.industrylables,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=VARCHAR},
+      lastLogin = #{record.lastlogin,jdbcType=TIMESTAMP},
+      firstType = #{record.firsttype,jdbcType=VARCHAR},
+      secondType = #{record.secondtype,jdbcType=VARCHAR},
+      isSchoolJob = #{record.isschooljob,jdbcType=BIT},
+      subwayline = #{record.subwayline,jdbcType=VARCHAR},
+      stationname = #{record.stationname,jdbcType=VARCHAR},
+      linestaion = #{record.linestaion,jdbcType=VARCHAR},
+      formatCreateTime = #{record.formatcreatetime,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qcloud.pojo.JobPosition" >
+    update job_position
+    <set >
+      <if test="platformType != null" >
+        platform_type = #{platformType,jdbcType=INTEGER},
+      </if>
+      <if test="searchText != null" >
+        search_text = #{searchText,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null" >
+        companyId = #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyurl != null" >
+        companyUrl = #{companyurl,jdbcType=VARCHAR},
+      </if>
+      <if test="companyfullname != null" >
+        companyFullName = #{companyfullname,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        positionId = #{positionid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionurl != null" >
+        positionUrl = #{positionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null" >
+        positionName = #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionadvantage != null" >
+        positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="workyear != null" >
+        workYear = #{workyear,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="jobnature != null" >
+        jobNature = #{jobnature,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="industryfield != null" >
+        industryField = #{industryfield,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="businesszones != null" >
+        businessZones = #{businesszones,jdbcType=VARCHAR},
+      </if>
+      <if test="positionlables != null" >
+        positionLables = #{positionlables,jdbcType=VARCHAR},
+      </if>
+      <if test="industrylables != null" >
+        industryLables = #{industrylables,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlogin != null" >
+        lastLogin = #{lastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firsttype != null" >
+        firstType = #{firsttype,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtype != null" >
+        secondType = #{secondtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isschooljob != null" >
+        isSchoolJob = #{isschooljob,jdbcType=BIT},
+      </if>
+      <if test="subwayline != null" >
+        subwayline = #{subwayline,jdbcType=VARCHAR},
+      </if>
+      <if test="stationname != null" >
+        stationname = #{stationname,jdbcType=VARCHAR},
+      </if>
+      <if test="linestaion != null" >
+        linestaion = #{linestaion,jdbcType=VARCHAR},
+      </if>
+      <if test="formatcreatetime != null" >
+        formatCreateTime = #{formatcreatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qcloud.pojo.JobPosition" >
+    update job_position
+    set platform_type = #{platformType,jdbcType=INTEGER},
+      search_text = #{searchText,jdbcType=VARCHAR},
+      companyId = #{companyid,jdbcType=VARCHAR},
+      companyUrl = #{companyurl,jdbcType=VARCHAR},
+      companyFullName = #{companyfullname,jdbcType=VARCHAR},
+      positionId = #{positionid,jdbcType=VARCHAR},
+      positionUrl = #{positionurl,jdbcType=VARCHAR},
+      positionName = #{positionname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
+      workYear = #{workyear,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      jobNature = #{jobnature,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      industryField = #{industryfield,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      businessZones = #{businesszones,jdbcType=VARCHAR},
+      positionLables = #{positionlables,jdbcType=VARCHAR},
+      industryLables = #{industrylables,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      lastLogin = #{lastlogin,jdbcType=TIMESTAMP},
+      firstType = #{firsttype,jdbcType=VARCHAR},
+      secondType = #{secondtype,jdbcType=VARCHAR},
+      isSchoolJob = #{isschooljob,jdbcType=BIT},
+      subwayline = #{subwayline,jdbcType=VARCHAR},
+      stationname = #{stationname,jdbcType=VARCHAR},
+      linestaion = #{linestaion,jdbcType=VARCHAR},
+      formatCreateTime = #{formatcreatetime,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
